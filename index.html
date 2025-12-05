@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagrama Object.create() - Stranger Things</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🧬 Diagrama Object.create() - Stranger Things</h1>
+
+<div class="diagrama">
+  <div class="caja" id="molde">
+    <div class="titulo">Molde Base<br>(personajeBase)</div>
+    <div class="propiedades">
+      Vida: 100<br>
+      Poder: "Ninguno"<br>
+      Métodos: atacar(), recibirDaño()
+    </div>
+  </div>
+
+  <div class="flecha">⬇️</div>
+
+  <div class="caja personaje" data-personaje="eleven">
+    <div class="titulo">Eleven</div>
+  </div>
+
+  <div class="caja personaje" data-personaje="demogorgon">
+    <div class="titulo">Demogorgon</div>
+  </div>
+</div>
+
+<div id="info" class="info-box">
+  <h2>Selecciona un personaje</h2>
+  <p>Propiedades y métodos heredados aparecerán aquí.</p>
+</div>
+
+<div class="controls">
+  <h3>Mini-juego de ataque</h3>
+  <select id="atacante">
+    <option value="eleven">Eleven</option>
+    <option value="demogorgon">Demogorgon</option>
+  </select>
+  <select id="defensor">
+    <option value="demogorgon">Demogorgon</option>
+    <option value="eleven">Eleven</option>
+  </select>
+  <button id="atacarBtn">¡Atacar!</button>
+</div>
+
+<!-- Diagrama educativo Object.create() -->
+<div class="diagrama-educativa">
+  <h2>💡 Cómo funciona Object.create()</h2>
+
+  <div class="caja-base">
+    <div class="titulo">personajeBase</div>
+    <p>Vida: 100</p>
+    <p>Poder: "Ninguno"</p>
+    <p>Métodos: atacar(), recibirDaño()</p>
+  </div>
+
+  <div class="flechas">
+    <div class="flecha">⬇️</div>
+    <div class="flecha">⬇️</div>
+  </div>
+
+  <div class="caja-derivada" data-personaje="eleven-diagrama">
+    <div class="titulo">Eleven</div>
+    <p>Hereda vida, poder y métodos</p>
+  </div>
+
+  <div class="caja-derivada" data-personaje="demogorgon-diagrama">
+    <div class="titulo">Demogorgon</div>
+    <p>Hereda vida, poder y métodos</p>
+  </div>
+</div>
+
+
+<script src="main.js"></script>
+</body>
+</html>

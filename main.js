@@ -1,57 +1,160 @@
 // -------------------------------------------
-// 🧬 1. PROTOTIPO BASE
-// Este objeto será el "molde" del que heredarán los personajes.
+// 1️⃣ Prototipo base
 // -------------------------------------------
-
 const personajeBase = {
-  nombre: "Desconocido",
-  poder: "Ninguno",
   vida: 100,
-
-  // Acción genérica (todos la heredan)
+  poder: "Ninguno",
   atacar() {
-    console.log(`${this.nombre} ataca usando ${this.poder}!`);
+    return `${this.nombre} ataca usando ${this.poder}!`;
   },
-
   recibirDaño(cantidad) {
     this.vida -= cantidad;
-    console.log(`${this.nombre} recibe ${cantidad} de daño. Vida actual: ${this.vida}`);
+    if (this.vida < 0) this.vida = 0;
+    return `${this.nombre} recibe ${cantidad} de daño. Vida actual: ${this.vida}`;
   }
 };
 
-
 // -------------------------------------------
-// 🧒 2. CREAR PERSONAJES USANDO Object.create()
-// Aquí empieza la magia de la herencia prototípica.
+// 2️⃣ Personajes creados con Object.create()
 // -------------------------------------------
-
-// Eleven hereda del personajeBase
 const eleven = Object.create(personajeBase);
-// Se personalizan sus propiedades
 eleven.nombre = "Eleven";
 eleven.poder = "Telequinesis";
 
-// Demogorgon hereda del personajeBase
 const demogorgon = Object.create(personajeBase);
 demogorgon.nombre = "Demogorgon";
-demogorgon.poder = "Garras del Upside Down";
+demogorgon.poder = "Garras del UD";
+
+// Mapa para enlazar dataset con objetos
+const personajesMap = { eleven, demogorgon };
+
+// -------------------------------------------
+// 3️⃣ Elementos DOM
+// -------------------------------------------
+const infoBox = document.getElementById("info");
+const personajesDOM = document.querySelectorAll(".personaje");
+const atacanteSelect = document.getElementById("atacante");
+const defensorSelect = document.getElementById("defensor");
+const atacarBtn = document.getElementById("atacarBtn");
+
+// -------------------------------------------
+// 4️⃣ Funciones para UI
+// -------------------------------------------
+function generarInfoHTML(personajeObj) {
+  return `
+    <h2>${personajeObj.nombre}</h2>
+    <p><strong>Poder:</strong> ${personajeObj.poder}</p>
+    <p><strong>Vida:</strong> ${personajeObj.vida}</p>
+    <p><strong>Métodos heredados:</strong> atacar(), recibirDaño()</p>
+    <p><strong>Ejemplo de ataque:</strong> "${personajeObj.atacar()}"</p>
+  `;
+}
+
+function mostrarInfo(personajeObj) {
+  infoBox.innerHTML = generarInfoHTML(personajeObj);
+}
+
+function actualizarVidaDOM() {
+  personajesDOM.forEach(caja => {
+    const personajeObj = personajesMap[caja.dataset.personaje];
+    const vidaParcial = caja.querySelector(".vida");
+    if (!vidaParcial) {
+      const spanVida = document.createElement("p");
+      spanVida.classList.add("vida");
+      spanVida.textContent = `Vida: ${personajeObj.vida}`;
+      caja.appendChild(spanVida);
+    } else {
+      vidaParcial.textContent = `Vida: ${personajeObj.vida}`;
+    }
+  });
+}
+
+// -------------------------------------------
+// 5️⃣ Interacción del diagrama
+// -------------------------------------------
+personajesDOM.forEach(caja => {
+  const personajeObj = personajesMap[caja.dataset.personaje];
+  mostrarInfo(personajeObj);
+  actualizarVidaDOM();
+
+  caja.addEventListener("click", () => {
+    mostrarInfo(personajeObj);
+  });
+});
+
+// -------------------------------------------
+// 6️⃣ Mini-juego de ataque
+// -------------------------------------------
+function atacarPersonaje() {
+  const atacanteObj = personajesMap[atacanteSelect.value];
+  const defensorObj = personajesMap[defensorSelect.value];
+
+  if (atacanteObj === defensorObj) {
+    infoBox.innerHTML = "<p>No puedes atacarte a ti mismo 😱</p>";
+    return;
+  }
+
+  // Daño aleatorio
+  const dano = Math.floor(Math.random() * 20) + 5;
+  const resultado = defensorObj.recibirDaño(dano);
+
+  // Animación de daño
+  const cajaDefensor = document.querySelector(`[data-personaje="${defensorSelect.value}"]`);
+  cajaDefensor.classList.add("recibido-dano");
+  setTimeout(() => {
+    cajaDefensor.classList.remove("recibido-dano");
+  }, 500);
+
+  // Mostrar resultados
+  infoBox.innerHTML = `
+    <h2>Mini-juego de ataque</h2>
+    <p>${atacanteObj.atacar()}</p>
+    <p>${resultado}</p>
+  `;
+
+  // Actualizar vida en diagrama
+  actualizarVidaDOM();
+}
+
+// Event listener del botón
+atacarBtn.addEventListener("click", atacarPersonaje);
 
 
 // -------------------------------------------
-// 🎮 3. MINI-JUEGO
-// Simulación rápida de un turno de batalla.
+// Diagrama educativo interactivo
 // -------------------------------------------
 
-console.log("🔥 COMIENZA LA BATALLA EN HAWKINS 🔥");
+// Creamos mini-objetos para demostrar herencia en el diagrama
+const personajeBaseDiagrama = {
+  vida: 100,
+  poder: "Ninguno",
+  atacar() {
+    return `${this.nombre} ataca usando ${this.poder}`;
+  }
+};
 
-// Turno 1: Eleven ataca
-eleven.atacar();
-demogorgon.recibirDaño(40);
+const elevenDiagrama = Object.create(personajeBaseDiagrama);
+elevenDiagrama.nombre = "Eleven";
 
-// Turno 2: Demogorgon contraataca
-demogorgon.atacar();
-eleven.recibirDaño(25);
+const demogorgonDiagrama = Object.create(personajeBaseDiagrama);
+demogorgonDiagrama.nombre = "Demogorgon";
 
-// Turno 3: Eleven usa un ataque final especial
-console.log("⚡ Eleven concentra todo su poder... ⚡");
-demogorgon.recibirDaño(80);
+const diagramaMap = {
+  "eleven-diagrama": elevenDiagrama,
+  "demogorgon-diagrama": demogorgonDiagrama
+};
+
+// Seleccionamos las cajas derivadas del diagrama
+const cajasDiagrama = document.querySelectorAll(".caja-derivada");
+
+cajasDiagrama.forEach(caja => {
+  caja.addEventListener("click", () => {
+    const personajeObj = diagramaMap[caja.dataset.personaje];
+    alert(
+      `Nombre: ${personajeObj.nombre}\n` +
+      `Vida heredada: ${personajeObj.vida}\n` +
+      `Poder heredado: ${personajeObj.poder}\n` +
+      `Método ejemplo: ${personajeObj.atacar()}`
+    );
+  });
+});
