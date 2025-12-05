@@ -3,51 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diagrama Object.create() - Stranger Things</title>
+<title>Stranger Things JS - Mini-juego y Object.create()</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>🧬 Diagrama Object.create() - Stranger Things</h1>
+<h1>🧬 Stranger Things - Mini-juego y Object.create()</h1>
 
-<div class="diagrama">
-  <div class="caja" id="molde">
-    <div class="titulo">Molde Base<br>(personajeBase)</div>
-    <div class="propiedades">
-      Vida: 100<br>
-      Poder: "Ninguno"<br>
-      Métodos: atacar(), recibirDaño()
+<!-- Mini-juego -->
+<div class="mini-juego">
+  <h2>Mini-juego de ataque</h2>
+
+  <div class="personajes-juego">
+    <div class="caja-juego" data-personaje="eleven">
+      <div class="titulo">Eleven</div>
+      <div class="barra-vida"><div class="vida-fill" style="width: 100%;"></div></div>
+    </div>
+
+    <div class="caja-juego" data-personaje="demogorgon">
+      <div class="titulo">Demogorgon</div>
+      <div class="barra-vida"><div class="vida-fill" style="width: 100%;"></div></div>
     </div>
   </div>
 
-  <div class="flecha">⬇️</div>
-
-  <div class="caja personaje" data-personaje="eleven">
-    <div class="titulo">Eleven</div>
-  </div>
-
-  <div class="caja personaje" data-personaje="demogorgon">
-    <div class="titulo">Demogorgon</div>
+  <div class="controls">
+    <select id="atacante">
+      <option value="eleven">Eleven</option>
+      <option value="demogorgon">Demogorgon</option>
+    </select>
+    <select id="defensor">
+      <option value="demogorgon">Demogorgon</option>
+      <option value="eleven">Eleven</option>
+    </select>
+    <button id="atacarBtn">¡Atacar!</button>
   </div>
 </div>
 
 <div id="info" class="info-box">
-  <h2>Selecciona un personaje</h2>
-  <p>Propiedades y métodos heredados aparecerán aquí.</p>
-</div>
-
-<div class="controls">
-  <h3>Mini-juego de ataque</h3>
-  <select id="atacante">
-    <option value="eleven">Eleven</option>
-    <option value="demogorgon">Demogorgon</option>
-  </select>
-  <select id="defensor">
-    <option value="demogorgon">Demogorgon</option>
-    <option value="eleven">Eleven</option>
-  </select>
-  <button id="atacarBtn">¡Atacar!</button>
+  <h2>Información del personaje</h2>
+  <p>Selecciona un personaje o realiza un ataque para ver sus propiedades.</p>
 </div>
 
 <!-- Diagrama educativo Object.create() -->
@@ -68,16 +63,17 @@
 
   <div class="caja-derivada" data-personaje="eleven-diagrama">
     <div class="titulo">Eleven</div>
+    <div class="barra-vida"><div class="vida-fill" style="width: 100%;"></div></div>
     <p>Hereda vida, poder y métodos</p>
   </div>
 
   <div class="caja-derivada" data-personaje="demogorgon-diagrama">
     <div class="titulo">Demogorgon</div>
+    <div class="barra-vida"><div class="vida-fill" style="width: 100%;"></div></div>
     <p>Hereda vida, poder y métodos</p>
   </div>
 </div>
 
-
-<script src="main.js"></script>
+<script src="./main.js"></script>
 </body>
 </html>
